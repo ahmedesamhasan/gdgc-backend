@@ -1,0 +1,53 @@
+CREATE DATABASE OnlineShoppingDB;
+USE OnlineShoppingDB;
+
+CREATE TABLE Customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE , NOT NULL
+);
+
+
+
+CREATE TABLE Products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    category VARCHAR(50)  
+);
+
+CREATE TABLE Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date DATE,
+
+
+);
+
+CREATE TABLE OrderItems (
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT DEFAULT 1,
+    price_each DECIMAL(10,2),
+    -- Foreign keys to ensure the order and product exist
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+INSERT INTO Customers (name, email) VALUES 
+    ('ahmed esam', 'ahmedn@example.com'),
+    ('ahmed1 esam1', ' ahmed1@example.com');
+
+INSERT INTO Products (product_name, price, category) VALUES 
+    ('Laptop', 1200.00, 'Electronics'),
+    ('Smartphone', 800.00, 'Electronics');
+
+INSERT INTO Orders (customer_id, order_date) VALUES 
+    (1, '2025-02-28'), 
+    (2, '2025-02-28');
+
+
+INSERT INTO OrderItems (order_id, product_id, quantity, price_each) VALUES 
+    (1, 1, 1, 1200.00),  
+    (2, 2, 2, 800.00);

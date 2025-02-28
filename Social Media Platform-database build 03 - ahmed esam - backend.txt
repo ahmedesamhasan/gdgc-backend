@@ -1,0 +1,54 @@
+CREATE DATABASE SocialMediaDB;
+USE SocialMediaDB;
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
+    
+);
+CREATE TABLE Posts (
+    post_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    post_date DATE,
+    -- Define foreign key to ensure post is made by an existing user
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE Comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    comment_date DATE,
+    -- Foreign key constraints to enforce valid references
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+CREATE TABLE Likes (
+    user_id INT NOT NULL,
+    post_id INT NOT NULL,
+    PRIMARY KEY (user_id, post_id),
+    -- Foreign keys to enforce that a like refers to a valid user and a valid post
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id)
+);
+
+INSERT INTO Users (username, email) VALUES 
+    ('ahmed', 'ahmede@example.com'),
+    ('ahmed1', 'ahmed1@example.com');
+
+
+INSERT INTO Posts (user_id, content, post_date) VALUES 
+    (1, 'Hello, this is ahmede’s first post!', '2025-02-28'),
+    (2, 'ahmed1 here, posting on this platform.', '2025-02-28');
+
+
+INSERT INTO Comments (post_id, user_id, content, comment_date) VALUES 
+    (2, 1, 'Nice post, ahmed! - from Alice', '2025-02-28'),
+    (1, 2, 'Thanks Alice! - from ahmed1', '2025-02-28');
+
+
+INSERT INTO Likes (user_id, post_id) VALUES 
+    (1, 1), 
+    (2, 1);
